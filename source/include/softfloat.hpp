@@ -292,6 +292,8 @@ inline float128_t f128_positive_infinity() {
    return {{0x0ull, 0x7fff000000000000ull}};
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
 inline float32_t to_softfloat32( float f ) {
    return *reinterpret_cast<float32_t*>(&f);
 }
@@ -304,3 +306,4 @@ inline float from_softfloat32( float32_t f ) {
 inline double from_softfloat64( float64_t d ) {
    return *reinterpret_cast<double*>(&d);
 }
+#pragma GCC diagnostic pop
