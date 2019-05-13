@@ -293,14 +293,22 @@ inline float128_t f128_positive_infinity() {
 }
 
 inline float32_t to_softfloat32( float f ) {
-   return *reinterpret_cast<float32_t*>(&f);
+   float32_t x;
+   memcpy(&x, &f, sizeof(f));
+   return x;
 }
 inline float64_t to_softfloat64( double d ) {
-   return *reinterpret_cast<float64_t*>(&d);
+   float64_t x;
+   memcpy(&x, &d, sizeof(d));
+   return x;
 }
 inline float from_softfloat32( float32_t f ) {
-   return *reinterpret_cast<float*>(&f);
+   float x;
+   memcpy(&x, &f, sizeof(f));
+   return x;
 }
 inline double from_softfloat64( float64_t d ) {
-   return *reinterpret_cast<double*>(&d);
+   double x;
+   memcpy(&x, &d, sizeof(d));
+   return x;
 }
