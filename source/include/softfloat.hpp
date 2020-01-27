@@ -186,3 +186,129 @@ bool f128M_lt_quiet( const float128_t *, const float128_t * );
 bool f128M_isSignalingNaN( const float128_t * );
 bool isNaNF128( const float128_t * );
 };
+
+inline bool operator == (const float32_t& lhs, const float32_t& rhs) {
+   return f32_eq(lhs, rhs);
+}
+
+inline bool operator != (const float32_t& lhs, const float32_t& rhs) {
+   return !f32_eq(lhs, rhs);
+}
+
+inline bool operator < (const float32_t& lhs, const float32_t& rhs) {
+   return f32_lt(lhs, rhs);
+}
+
+inline bool operator > (const float32_t& lhs, const float32_t& rhs) {
+   return f32_lt(rhs, lhs);
+}
+
+inline bool operator <= (const float32_t& lhs, const float32_t& rhs) {
+   return f32_le(lhs, rhs);
+}
+
+inline bool operator >= (const float32_t& lhs, const float32_t& rhs) {
+   return f32_le(rhs, lhs);
+}
+
+inline bool operator == (const float64_t& lhs, const float64_t& rhs) {
+   return f64_eq(lhs, rhs);
+}
+
+inline bool operator != (const float64_t& lhs, const float64_t& rhs) {
+   return !f64_eq(lhs, rhs);
+}
+
+inline bool operator < (const float64_t& lhs, const float64_t& rhs) {
+   return f64_lt(lhs, rhs);
+}
+
+inline bool operator > (const float64_t& lhs, const float64_t& rhs) {
+   return f64_lt(rhs, lhs);
+}
+
+inline bool operator <= (const float64_t& lhs, const float64_t& rhs) {
+   return f64_le(lhs, rhs);
+}
+
+inline bool operator >= (const float64_t& lhs, const float64_t& rhs) {
+   return f64_le(rhs, lhs);
+}
+
+inline bool operator == (const float128_t& lhs, const float128_t& rhs) {
+   return f128_eq(lhs, rhs);
+}
+
+inline bool operator != (const float128_t& lhs, const float128_t& rhs) {
+   return !f128_eq(lhs, rhs);
+}
+
+inline bool operator < (const float128_t& lhs, const float128_t& rhs) {
+   return f128_lt(lhs, rhs);
+}
+
+inline bool operator > (const float128_t& lhs, const float128_t& rhs) {
+   return f128_lt(rhs, lhs);
+}
+
+inline bool operator <= (const float128_t& lhs, const float128_t& rhs) {
+   return f128_le(lhs, rhs);
+}
+
+inline bool operator >= (const float128_t& lhs, const float128_t& rhs) {
+   return f128_le(rhs, lhs);
+}
+
+inline bool f32_sign_bit( float32_t f )   { return f.v >> 31; }
+inline bool f64_sign_bit( float64_t f )   { return f.v >> 63; }
+inline bool f128_sign_bit( float128_t f ) { return f.v[1] >> 63; }
+
+inline bool f32_is_nan( const float32_t f ) {
+   return ((f.v & 0x7FFFFFFF) > 0x7F800000);
+}
+inline bool f64_is_nan( const float64_t f ) {
+   return ((f.v & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000);
+}
+inline bool f128_is_nan( const float128_t& f ) {
+   return (((~(f.v[1]) & uint64_t( 0x7FFF000000000000 )) == 0) && (f.v[0] || ((f.v[1]) & uint64_t( 0x0000FFFFFFFFFFFF ))));
+}
+
+inline float32_t f32_negative_infinity() {
+   return {0xff800000ul};
+}
+inline float32_t f32_positive_infinity() {
+   return {0x7f800000ul};
+}
+inline float64_t f64_negative_infinity() {
+   return {0xfff0000000000000ull};
+}
+inline float64_t f64_positive_infinity() {
+   return {0x7ff0000000000000ull};
+}
+inline float128_t f128_negative_infinity() {
+   return {{0x0ull, 0xffff000000000000ull}};
+}
+inline float128_t f128_positive_infinity() {
+   return {{0x0ull, 0x7fff000000000000ull}};
+}
+
+inline float32_t to_softfloat32( float f ) {
+   float32_t x;
+   memcpy(&x, &f, sizeof(f));
+   return x;
+}
+inline float64_t to_softfloat64( double d ) {
+   float64_t x;
+   memcpy(&x, &d, sizeof(d));
+   return x;
+}
+inline float from_softfloat32( float32_t f ) {
+   float x;
+   memcpy(&x, &f, sizeof(f));
+   return x;
+}
+inline double from_softfloat64( float64_t d ) {
+   double x;
+   memcpy(&x, &d, sizeof(d));
+   return x;
+}
